@@ -1,0 +1,62 @@
+version: v1.0
+name: Demo Rails 5 app
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+  - name: Setup
+    task:
+      jobs:
+        - name: bundle
+          commands:
+          - checkout
+          - cache restore gems-$SEMAPHORE_GIT_BRANCH-$(checksum Gemfile.lock),gems-$SEMAPHORE_GIT_BRANCH-,gems-master-
+          - bundle install --deployment -j 4 --path vendor/bundle
+          - cache store gems-$SEMAPHORE_GIT_BRANCH-$(checksum Gemfile.lock) vendor/bundle
+
+  - name: Code scanning
+    task:
+      jobs:
+        - name: check style + security
+          commands:
+            - checkout
+            - cache restore gems-$SEMAPHORE_GIT_BRANCH-$(checksum Gemfile.lock),gems-$SEMAPHORE_GIT_BRANCH-,gems-master-
+            - bundle install --deployment --path vendor/bundle
+            - bundle exec rubocop
+            - bundle exec brakeman
+
+  - name: Unit tests
+    task:
+      prologue:
+        commands:
+          - checkout
+          - cache restore gems-$SEMAPHORE_GIT_BRANCH-$(checksum Gemfile.lock),gems-$SEMAPHORE_GIT_BRANCH-,gems-master-
+          - sem-service start postgres
+          - bundle install --deployment --path vendor/bundle
+          - bundle exec rake db:setup
+
+      jobs:
+      - name: RSpec - model tests
+        commands:
+          - bundle exec rspec spec/models
+
+      - name: RSpec - controller tests
+        commands:
+          - bundle exec rspec spec/controllers
+
+  - name: Integration tests
+    task:
+      prologue:
+        commands:
+          - checkout
+          - cache restore gems-$SEMAPHORE_GIT_BRANCH-$(checksum Gemfile.lock),gems-$SEMAPHORE_GIT_BRANCH-,gems-master-
+          - sem-service start postgres
+          - bundle install --deployment --path vendor/bundle
+          - bundle exec rake db:setup
+
+      jobs:
+      - name: RSpec - feature specs
+        commands:
+          - bundle exec rspec spec/features
