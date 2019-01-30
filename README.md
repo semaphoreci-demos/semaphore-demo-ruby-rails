@@ -29,8 +29,8 @@ The CI pipeline will look like this:
 ![CI pipeline on Semaphore](public/ci-pipeline.png)
 
 You can follow along with this project by reading the
-[documentation](https://docs.semaphoreci.com/article/73-ruby). Or jump straight
-into `.semaphore/semaphore.yml`.
+[documentation](https://docs.semaphoreci.com/article/99-rails-continuous-integration).
+Or jump straight into `.semaphore/semaphore.yml`.
 
 You can extend the CI pipeline with Continuous Delivery by implementing a
 [promotion](https://docs.semaphoreci.com/article/67-deploying-with-promotions).
