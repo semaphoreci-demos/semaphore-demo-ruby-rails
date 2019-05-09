@@ -18,7 +18,7 @@ agent:
 
   containers:
     - name: main
-      image: semaphoreci/ruby:2.6.0
+      image: semaphoreci/ruby:2.6.1
 
 # Blocks are the heart of a pipeline and are executed sequentially.
 # Each block has a task that defines one or more jobs. Jobs define the
