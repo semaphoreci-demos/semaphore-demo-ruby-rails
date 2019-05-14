@@ -79,10 +79,9 @@ blocks:
         commands:
           - checkout
           - cache restore gems-$SEMAPHORE_GIT_BRANCH-$(checksum Gemfile.lock),gems-$SEMAPHORE_GIT_BRANCH-,gems-master-
-          # Start Postgres database service.
           # See https://docs.semaphoreci.com/article/54-toolbox-reference#sem-service
           - bundle install --deployment --path vendor/bundle
-          - bundle exec rake db:setup
+          - bundle exec rake db:migrate db:setup
 
       jobs:
       - name: RSpec - model tests
