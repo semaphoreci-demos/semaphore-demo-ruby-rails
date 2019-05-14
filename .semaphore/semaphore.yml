@@ -19,6 +19,15 @@ agent:
   containers:
     - name: main
       image: semaphoreci/ruby:2.6.1-node
+      env_vars:
+        - name: DATABASE_URL
+          value: db
+
+    - name: db
+      image: postgres:10
+      env_vars:
+        - name: POSTGRES_PASSWORD
+          value: keyboard-cat
 
 # Blocks are the heart of a pipeline and are executed sequentially.
 # Each block has a task that defines one or more jobs. Jobs define the
