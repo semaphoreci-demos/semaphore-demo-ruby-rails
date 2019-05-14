@@ -6,25 +6,38 @@ version: v1.0
 # and delivery phases.
 name: Demo Rails 5 app
 
-# An agent defines the environment in which your code runs.
-# It is a combination of one of available machine types and operating
-# system images.
+# An agent defines the environment in which your code runs. The agent's
+# environment can be either a Virtual Machine, or a collection of containers.
+#
+# In this example we will use a Ruby container with a Postgres 10 sidecar
+# container to run the jobs. The containers will run on a
+# e1-standard-2 (2 CPU, 4 GB memory) machines type.
+#
 # See https://docs.semaphoreci.com/article/20-machine-types
-# and https://docs.semaphoreci.com/article/32-ubuntu-1804-image
+# and https://docs.semaphoreci.com/article/127-custom-ci-cd-environment-with-docker.
 agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
 
   containers:
+    # The first container in the list, usually called main, executes the commands.
     - name: main
       image: semaphoreci/ruby:2.6.1-node
       env_vars:
+        # We construct a Rails friendly DATABASE_URL environment variable based
+        # on the definition of the 'db' container bellow.
+        #
+        # The format that we follow is postgres://<username>:<password>@<hostname>
         - name: DATABASE_URL
           value: "postgres://postgres:keyboard-cat@db"
         - name: RAILS_ENV
           value: test
 
+    # The rest of the containers in the list are sidecar containers that offer
+    # additional services to the main container. They are connected to the first
+    # container via DNS, in this case the hostname `db` will point to this
+    # container.
     - name: db
       image: postgres:10
       env_vars:
@@ -79,7 +92,6 @@ blocks:
         commands:
           - checkout
           - cache restore gems-$SEMAPHORE_GIT_BRANCH-$(checksum Gemfile.lock),gems-$SEMAPHORE_GIT_BRANCH-,gems-master-
-          # See https://docs.semaphoreci.com/article/54-toolbox-reference#sem-service
           - bundle install --deployment --path vendor/bundle
           - bundle exec rake db:migrate db:setup
 
