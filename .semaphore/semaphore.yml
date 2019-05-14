@@ -103,7 +103,7 @@ blocks:
           - checkout
           - cache restore gems-$SEMAPHORE_GIT_BRANCH-$(checksum Gemfile.lock),gems-$SEMAPHORE_GIT_BRANCH-,gems-master-
           - bundle install --deployment --path vendor/bundle
-          - bundle exec rake db:setup
+          - bundle exec rake db:migrate db:setup
 
       jobs:
       - name: RSpec - feature specs
