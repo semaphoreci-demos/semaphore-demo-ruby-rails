@@ -21,7 +21,9 @@ agent:
       image: semaphoreci/ruby:2.6.1-node
       env_vars:
         - name: DATABASE_URL
-          value: db
+          value: "postgres://postgres:keyboard-cat@db"
+        - name: RAILS_ENV
+          value: test
 
     - name: db
       image: postgres:10
