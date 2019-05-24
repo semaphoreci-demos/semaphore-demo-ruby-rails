@@ -18,7 +18,6 @@ name: Demo Rails 5 app
 agent:
   machine:
     type: e1-standard-2
-    os_image: ubuntu1804
 
   containers:
     # The first container in the list, usually called main, executes the commands.
