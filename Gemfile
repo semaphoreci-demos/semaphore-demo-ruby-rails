@@ -39,6 +39,9 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rubocop', require: false
   gem 'rubocop-rspec'
+
+  # be able to demonstrate mysql config on Semaphore
+  gem 'mysql2', '~> 0.5.2'
 end
 
 group :development do

@@ -22,6 +22,7 @@ agent:
 # See https://docs.semaphoreci.com/article/62-concepts
 blocks:
   - name: Setup
+    dependencies: []
     task:
       jobs:
         - name: bundle
@@ -43,6 +44,8 @@ blocks:
           - cache store
 
   - name: Code scanning
+    dependencies:
+      - Setup
     task:
       jobs:
         - name: check style + security
@@ -59,6 +62,8 @@ blocks:
             - bundle exec brakeman
 
   - name: Unit tests
+    dependencies:
+      - Code scanning
     task:
       # This block runs two jobs in parallel and they both share common
       # setup steps. We can group them in a prologue.
@@ -88,6 +93,8 @@ blocks:
   # agent configuration here to use e1-standard-8.
   # See https://docs.semaphoreci.com/article/50-pipeline-yaml#agent-in-task
   - name: Integration tests
+    dependencies:
+      - Unit tests
     task:
       prologue:
         commands:
@@ -102,3 +109,16 @@ blocks:
       - name: RSpec - feature specs
         commands:
           - bundle exec rspec spec/features
+  - name: 'MySQL smoke test'
+    dependencies: []
+    task:
+      jobs:
+        - name: 'Build with MySQL'
+          commands:
+            - checkout
+            - cache restore
+            - sem-service start mysql
+            - bundle install --deployment --path vendor/bundle
+            - cp config/database.yml.mysql config/database.yml
+            - bundle exec rake db:setup
+            - bundle exec rspec spec/models
