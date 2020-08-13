@@ -16,6 +16,24 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 
+global_job_config:
+  prologue:
+    commands:
+      # Checkout code from Git repository. This step is mandatory if the
+      # job is to work with your code.
+      # Optionally you may use --use-cache flag to avoid roundtrip to
+      # remote repository.
+      # See https://docs.semaphoreci.com/article/54-toolbox-reference#checkout
+      - checkout
+      # Restore dependencies from cache.
+      # Read about caching: https://docs.semaphoreci.com/article/149-caching
+      - cache restore
+      # Set Ruby version:
+      - sem-version ruby 2.6.0
+      - bundle install --deployment -j 4 --path vendor/bundle
+
+    
+
 # Blocks are the heart of a pipeline and are executed sequentially.
 # Each block has a task that defines one or more jobs. Jobs define the
 # commands to execute.
@@ -27,18 +45,6 @@ blocks:
       jobs:
         - name: bundle
           commands:
-          # Checkout code from Git repository. This step is mandatory if the
-          # job is to work with your code.
-          # Optionally you may use --use-cache flag to avoid roundtrip to
-          # remote repository.
-          # See https://docs.semaphoreci.com/article/54-toolbox-reference#checkout
-          - checkout
-          # Restore dependencies from cache.
-          # Read about caching: https://docs.semaphoreci.com/article/149-caching
-          - cache restore
-          # Set Ruby version:
-          - sem-version ruby 2.6.0
-          - bundle install --deployment -j 4 --path vendor/bundle
           # Store the latest version of dependencies in cache,
           # to be used in next blocks and future workflows:
           - cache store
@@ -50,14 +56,6 @@ blocks:
       jobs:
         - name: check style + security
           commands:
-            - checkout
-            - cache restore
-            # Bundler requires `install` to run even though cache has been
-            # restored, but generally this is not the case with other package
-            # managers. Installation will not actually run and command will
-            # finish quickly:
-            - sem-version ruby 2.6.0
-            - bundle install --deployment --path vendor/bundle
             - bundle exec rubocop
             - bundle exec brakeman
 
@@ -70,13 +68,6 @@ blocks:
       # See https://docs.semaphoreci.com/article/50-pipeline-yaml#prologue
       prologue:
         commands:
-          - checkout
-          - cache restore
-          # Start Postgres database service.
-          # See https://docs.semaphoreci.com/article/54-toolbox-reference#sem-service
-          - sem-service start postgres
-          - sem-version ruby 2.6.0
-          - bundle install --deployment --path vendor/bundle
           - bundle exec rake db:setup
 
       jobs:
@@ -96,29 +87,7 @@ blocks:
     dependencies:
       - Unit tests
     task:
-      prologue:
-        commands:
-          - checkout
-          - cache restore
-          - sem-service start postgres
-          - sem-version ruby 2.6.0
-          - bundle install --deployment --path vendor/bundle
-          - bundle exec rake db:setup
-
       jobs:
       - name: RSpec - feature specs
         commands:
           - bundle exec rspec spec/features
-  - name: 'MySQL smoke test'
-    dependencies: []
-    task:
-      jobs:
-        - name: 'Build with MySQL'
-          commands:
-            - checkout
-            - cache restore
-            - sem-service start mysql
-            - bundle install --deployment --path vendor/bundle
-            - cp config/database.yml.mysql config/database.yml
-            - bundle exec rake db:setup
-            - bundle exec rspec spec/models
