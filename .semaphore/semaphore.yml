@@ -68,6 +68,7 @@ blocks:
       # See https://docs.semaphoreci.com/article/50-pipeline-yaml#prologue
       prologue:
         commands:
+          - sem-service start postgres
           - bundle exec rake db:setup
 
       jobs:
@@ -90,4 +91,6 @@ blocks:
       jobs:
       - name: RSpec - feature specs
         commands:
+          - sem-service start postgres
+          - bundle exec rake db:setup
           - bundle exec rspec spec/features
