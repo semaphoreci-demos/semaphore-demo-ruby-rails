@@ -30,7 +30,9 @@ global_job_config:
       - cache restore
       # Set Ruby version:
       - sem-version ruby 2.6.0
-      - bundle install --deployment -j 4 --path vendor/bundle
+      - bundle config set deployment 'true'
+      - bundle config set path 'vendor/bundle'
+      - bundle install
 
     
 
