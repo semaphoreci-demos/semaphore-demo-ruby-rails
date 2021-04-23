@@ -38,6 +38,7 @@ group :development, :test do
   gem 'capybara'
   gem 'rspec-rails'
   gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
   gem 'rubocop-rspec'
 
   # be able to demonstrate mysql config on Semaphore
