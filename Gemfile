@@ -1,8 +1,12 @@
+def next?
+  File.basename(__FILE__) == "Gemfile.next"
+end
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+gem 'webpacker'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.1'
+gem 'rails', '~> 6.0.1'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
@@ -38,7 +42,9 @@ group :development, :test do
   gem 'capybara'
   gem 'rspec-rails'
   gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
   gem 'rubocop-rspec'
+  gem 'next_rails'
 
   # be able to demonstrate mysql config on Semaphore
   gem 'mysql2', '~> 0.5.2'
