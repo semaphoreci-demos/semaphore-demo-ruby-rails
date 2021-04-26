@@ -4,7 +4,7 @@ version: v1.0
 # Name your pipeline. In case you connect multiple pipelines with promotions,
 # the name will help you differentiate between, for example, a CI build phase
 # and delivery phases.
-name: Demo Rails 5 app
+name: Demo Rails 6 app
 
 # An agent defines the environment in which your code runs.
 # It is a combination of one of available machine types and operating
