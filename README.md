@@ -1,5 +1,7 @@
 # Semaphore demo CI/CD pipeline using Ruby on Rails
 
+[![Build Status](https://semaphore-demos.semaphoreci.com/badges/semaphore-demo-ruby-rails/branches/master.svg)](https://semaphore-demos.semaphoreci.com/projects/semaphore-demo-ruby-rails)
+
 This is an example application and CI/CD pipeline showing how to run a Ruby on
 Rails project on Semaphore 2.0.
 
@@ -38,6 +40,6 @@ Refer to Semaphore documentation for additional deployment examples.
 
 ## License
 
-Copyright (c) 2020 Rendered Text 
+Copyright (c) 2021 Rendered Text
 
 Distributed under the MIT License. See the file LICENSE.md.
