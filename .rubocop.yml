@@ -13,6 +13,7 @@ AllCops:
     - "spec/spec_helper.rb"
     - "spec/rails_helper.rb"
     - "vendor/**/*"
+    - "node_modules/**/*"
 
 Style/Documentation:
   Enabled: false
