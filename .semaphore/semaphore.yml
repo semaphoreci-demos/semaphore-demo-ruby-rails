@@ -11,12 +11,10 @@ blocks:
       jobs:
         - name: bundle
           commands:
+            - sem-version ruby 2.7.3
+            - sem-version node 14.16.1
             - checkout
             - cache restore
-            - sem-version ruby 2.7.3
-            - bundle config --global jobs 4
-            - bundle config set deployment 'true'
-            - bundle config set path 'vendor/bundle'
             - bundle install
             - cache store
   - name: Code scanning
@@ -26,13 +24,12 @@ blocks:
       jobs:
         - name: check style + security
           commands:
+            - sem-version ruby 2.7.3
+            - sem-version node 14.16.1
             - checkout
             - cache restore
-            - sem-version ruby 2.7.3
-            - bundle config --global jobs 4
-            - bundle config set deployment 'true'
-            - bundle config set path 'vendor/bundle'
             - bundle install
+            - cache store
             - bundle exec rubocop
             - bundle exec brakeman
   - name: Unit tests
@@ -41,13 +38,12 @@ blocks:
     task:
       prologue:
         commands:
+          - sem-version ruby 2.7.3
+          - sem-version node 14.16.1
           - checkout
           - cache restore
-          - sem-version ruby 2.7.3
-          - bundle config --global jobs 4
-          - bundle config set deployment 'true'
-          - bundle config set path 'vendor/bundle'
           - bundle install
+          - cache store
           - sem-service start postgres
           - 'bundle exec rake db:setup'
       jobs:
@@ -63,13 +59,12 @@ blocks:
     task:
       prologue:
         commands:
+          - sem-version ruby 2.7.3
+          - sem-version node 14.16.1
           - checkout
           - cache restore
-          - sem-version ruby 2.7.3
-          - bundle config --global jobs 4
-          - bundle config set deployment 'true'
-          - bundle config set path 'vendor/bundle'
           - bundle install
+          - cache store
       jobs:
         - name: RSpec - feature specs
           commands:
