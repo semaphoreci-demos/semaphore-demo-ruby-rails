@@ -48,6 +48,7 @@ group :development, :test do
 
   # be able to demonstrate mysql config on Semaphore
   gem 'mysql2', '~> 0.5.2'
+  gem "rspec_junit_formatter"
 end
 
 group :development do
