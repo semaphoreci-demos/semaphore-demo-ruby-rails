@@ -53,6 +53,10 @@ blocks:
         - name: RSpec - controller tests
           commands:
             - bundle exec rspec spec/controllers
+      epilogue:
+        always:
+          commands:
+            - test-results publish junit.xml
   - name: Integration tests
     dependencies:
       - Unit tests
@@ -71,3 +75,7 @@ blocks:
             - sem-service start postgres
             - 'bundle exec rake db:setup'
             - bundle exec rspec spec/features
+      epilogue:
+        always:
+          commands:
+            - test-results publish junit.xml
