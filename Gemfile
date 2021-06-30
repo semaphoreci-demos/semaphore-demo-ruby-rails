@@ -48,6 +48,7 @@ group :development, :test do
 
   # be able to demonstrate mysql config on Semaphore
   gem 'mysql2', '~> 0.5.2'
+  gem "rspec_junit_formatter"
 end
 
 group :development do
@@ -58,7 +59,6 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
-
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
