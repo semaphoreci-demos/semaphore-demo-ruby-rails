@@ -4,6 +4,12 @@ agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu1804
+#after_pipeline:
+#  task:
+#    jobs:
+#      - name: Reports
+#        commands:
+#          - test-results gen-pipeline-report -f
 blocks:
   - name: Setup
     dependencies: []
