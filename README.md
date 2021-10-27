@@ -34,6 +34,8 @@ You can follow along with this project by reading the
 [documentation](https://docs.semaphoreci.com/article/99-rails-continuous-integration).
 Or jump straight into `.semaphore/semaphore.yml`.
 
+This project also makes use of the Test Results feature.
+
 You can extend the CI pipeline with Continuous Delivery by implementing a
 [promotion](https://docs.semaphoreci.com/article/67-deploying-with-promotions).
 Refer to Semaphore documentation for additional deployment examples.
