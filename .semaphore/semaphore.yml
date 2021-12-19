@@ -56,7 +56,7 @@ blocks:
       epilogue:
         always:
           commands:
-            - test-results publish junit.xml
+            - "[-f junit.xml ] && test-results publish junit.xml"
   - name: Integration tests
     dependencies:
       - Unit tests
