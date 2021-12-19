@@ -3,7 +3,7 @@ name: Demo Rails 6 app
 agent:
   machine:
     type: e1-standard-2
-    os_image: ubuntu1804
+    os_image: ubuntu2004
 blocks:
   - name: Setup
     dependencies: []
@@ -56,7 +56,7 @@ blocks:
       epilogue:
         always:
           commands:
-            - test-results publish junit.xml
+            - "[[ -f junit.xml ]] && test-results publish --name \"🧪 Unit tests\" junit.xml"
   - name: Integration tests
     dependencies:
       - Unit tests
@@ -78,4 +78,11 @@ blocks:
       epilogue:
         always:
           commands:
-            - test-results publish junit.xml
+            - "[[ -f junit.xml ]] && test-results publish --name \"🏗️ Integration tests\" junit.xml"
+
+after_pipeline:
+  task:
+    jobs:
+      - name: Publish Results
+        commands:
+          - test-results gen-pipeline-report
