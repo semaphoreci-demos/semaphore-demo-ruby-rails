@@ -56,8 +56,16 @@ blocks:
       epilogue:
         always:
           commands:
-            - test-results publish --name "teste-vaisalvardiferente" junit.xml
-            - test-results publish --name "tentar outro" junit.xml
+            - '#test-results publish --name "teste-vaisalvardiferente" junit.xml'
+            - '#test-results publish --name "tentar outro" junit.xml'
+            - '# Manualy create the first report; a unique name is provided to create a namespace for tests'
+            - test-results compile --name "First report results" junit.xml report1.json
+            - '# Manualy create the second report'
+            - test-results compile --name "Second report results" junit.xml report2.json
+            - '# Combine two reports together'
+            - test-results combine report1.json report2.json report.json
+            - '# Push report to artifact storage'
+            - artifact push job report.json test-results/junit.json
   - name: Integration tests
     dependencies:
       - Unit tests
