@@ -57,6 +57,7 @@ blocks:
         always:
           commands:
             - test-results publish --name "teste-vaisalvardiferente" junit.xml
+            - test-results publish --name "tentar outro" junit.xml
   - name: Integration tests
     dependencies:
       - Unit tests
