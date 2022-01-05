@@ -65,7 +65,7 @@ blocks:
             - '# Combine two reports together'
             - test-results combine report1.json report2.json report.json
             - '# Push report to artifact storage'
-            - artifact push job report.json test-results/junit.json
+            - artifact push job report.json -d test-results/junit.json
   - name: Integration tests
     dependencies:
       - Unit tests
