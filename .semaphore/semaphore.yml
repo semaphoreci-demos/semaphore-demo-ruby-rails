@@ -15,7 +15,7 @@ blocks:
             - sem-version ruby 3.1.0
             - ruby -v
             - sem-version node 14.16.1
-            - echo "trying git"
+            - echo "changed back"
             - echo $SEMAPHORE_GIT_URL
             - checkout
             - cache restore
