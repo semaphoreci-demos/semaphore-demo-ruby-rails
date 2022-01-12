@@ -16,6 +16,7 @@ blocks:
             - ruby -v
             - sem-version node 14.16.1
             - echo "trying git"
+            - echo $SEMAPHORE_GIT_URL
             - checkout
             - cache restore
             - bundle install
