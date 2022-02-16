@@ -3,22 +3,19 @@ name: Heroku deployment
 agent:
   machine:
     type: e1-standard-2
-    os_image: ubuntu1804
+    os_image: ubuntu2004
 blocks:
   - name: Deploy
     task:
       secrets:
-        - name: newapp-heroku
+        - name: heroku-http
       env_vars:
-        - name: HEROKU_REMOTE
-          value: 'https://git.heroku.com/uncut-myapp.git'
+        - name: HEROKU_APP_NAME
+          value: heroku-app-name
+# Note: change the value of HEROKU_APP_NAME to match your application's details as registered on Heroku.
       jobs:
         - name: Deploy
           commands:
-            - checkout
-            - ssh-keyscan -H heroku.com >> ~/.ssh/known_hosts
-            - chmod 600 ~/.ssh/id_rsa_heroku
-            - ssh-add ~/.ssh/id_rsa_heroku
-            - 'git config --global url.ssh://git@heroku.com/.insteadOf https://git.heroku.com/'
-            - git remote add heroku $HEROKU_REMOTE
-            - 'git push heroku -f $SEMAPHORE_GIT_BRANCH:master'
+            - checkout --use-cache
+            - heroku git:remote -a $HEROKU_APP_NAME
+            - git push heroku -f $SEMAPHORE_GIT_BRANCH:master
