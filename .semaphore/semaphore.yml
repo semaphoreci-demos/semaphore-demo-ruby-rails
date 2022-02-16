@@ -80,15 +80,9 @@ blocks:
           commands:
             - "[[ -f junit.xml ]] && test-results publish --name \"🏗️ Integration tests\" junit.xml"
 
-
-
 after_pipeline:
   task:
     jobs:
       - name: Publish Results
         commands:
           - test-results gen-pipeline-report
-
-promotions:
-  - name: Deploy to Heroku
-    pipeline_file: heroku.yml
