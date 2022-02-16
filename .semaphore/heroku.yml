@@ -8,7 +8,7 @@ blocks:
   - name: Deploy
     task:
       secrets:
-        - name: newapp-heroku
+        - name: heroku-http
       env_vars:
         - name: HEROKU_REMOTE
           value: 'https://git.heroku.com/semaphore-olga-ruby-demo.git'
