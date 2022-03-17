@@ -56,7 +56,7 @@ blocks:
       epilogue:
         always:
           commands:
-            - "[[ -f junit.xml ]] && test-results publish --name \"🧪 Unit tests\" junit.xml"
+            - "[[ -f junit.xml ]] && test-results publish --name \"\U0001F9EA Unit tests\" junit.xml"
   - name: Integration tests
     dependencies:
       - Unit tests
@@ -78,8 +78,7 @@ blocks:
       epilogue:
         always:
           commands:
-            - "[[ -f junit.xml ]] && test-results publish --name \"🏗️ Integration tests\" junit.xml"
-
+            - "[[ -f junit.xml ]] && test-results publish --name \"\U0001F3D7️ Integration tests\" junit.xml"
 after_pipeline:
   task:
     jobs:
