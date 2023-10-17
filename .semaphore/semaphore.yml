@@ -24,7 +24,6 @@ blocks:
       jobs:
         - name: check style + security
           commands:
-            - 'false'
             - sem-version ruby 2.7.3
             - sem-version node 14.16.1
             - checkout
