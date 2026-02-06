@@ -2,8 +2,8 @@ version: v1.0
 name: Demo Rails 6 app
 agent:
   machine:
-    type: e1-standard-2
-    os_image: ubuntu2004
+    type: s1-runner01
+    os_image: ''
 blocks:
   - name: Setup
     dependencies: []
